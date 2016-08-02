@@ -1,0 +1,1 @@
+Mapotempo::Application.config.delayed_job_use = true
