@@ -162,3 +162,5 @@ gem 'pnotify-rails'
 gem 'nokogiri'
 gem 'addressable'
 gem 'icalendar'
+
+gem 'jquery-minicolors-rails'

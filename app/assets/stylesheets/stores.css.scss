@@ -83,4 +83,64 @@
       color: #555;
     }
   }
+
+  #selecter_color_wraper{
+    position:relative;
+
+    #Color_picker_wraper{
+      position: absolute;
+      top: 6px;
+      right: 55.3%;
+      width: 19px;
+      height: 19px;
+      vertical-align: middle;
+      background: transparent;
+      border-radius: 24%;
+      color: #555555;
+      text-align: center;
+      z-index:9999;
+
+      label{
+        display: none;
+      }
+
+      .color-picker{
+        display: none;
+        border: none;
+        padding: 0px;
+        background: transparent;
+      } 
+
+      #customised_color_picker{
+        display: inline-block;
+        vertical-align: middle;
+        cursor:pointer;
+      }
+      #customised_plus_color{
+        position: absolute;
+        top: calc(50% - 8px);
+        font-size: 16px;
+        color: #428bca;
+        cursor:pointer;
+      }
+    }
+    @media all and (max-width: 1250px){
+      #Color_picker_wraper{
+        right:49.3% !important;
+      }
+    }
+
+    @media all and (max-width: 1000px){
+      #Color_picker_wraper{
+        right:55% !important;
+        top:30px !important;
+      }
+    }
+    @media all and (max-width: 750px){
+      #Color_picker_wraper{
+        left: calc(288px + 0px);
+      }
+    }
+  }
 }
+

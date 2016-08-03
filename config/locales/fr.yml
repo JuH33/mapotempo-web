@@ -292,6 +292,7 @@ fr:
         color: "Couleur"
         icon: "Icône"
         icon_size: "Taille d'icône"
+        customised_color: "Couleur personnalisée"
       # Duplicate for nested errors with autosave
       stores:
         name: "Nom"

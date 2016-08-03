@@ -49,6 +49,40 @@ var destinations_form = function(params, api) {
     $('#store_color').simplecolorpicker({
       theme: 'fontawesome'
     });
+    
+    //Upgrade the colorpicker système for store 'edit'
+
+    $('#Color_picker_wraper').click(function(){
+
+      var colorPicker = $('#colorPicker'),
+      options_wrap = $('#store_color option[selected="selected"]');
+
+      $('.color[data-selected=""]').removeAttr('data-selected');
+      $('.color:last-child').attr('data-selected', '');
+      options_wrap.removeAttr('selected');
+
+      if (colorPicker.attr('data') == 'on'){
+        colorPicker.attr('name', 'store[color]');
+        colorPicker.fadeIn();
+      }
+      else {
+        colorPicker.fadeIn().attr('data', 'on');
+        colorPicker.on("input", function() {
+          $('.color:last-child').attr('style', 'background-color: ' + this.value)
+          .attr('data-color', this.value)
+          .attr('title', this.value);
+          $('#store_color option:last-child').attr('value', this.value)
+          .attr('selected', 'selected')
+          .val(this.value);
+        });
+      }
+    });
+
+    $('#colorPicker').on('change', function(){
+      $('#colorPicker').fadeOut('fast');
+      $('.color[data-selected=""]').click();
+    });
+
     $('#store_icon option').each(function(elem, val) {
       var $this = $(this);
       if ($this.val())

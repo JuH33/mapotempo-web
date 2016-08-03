@@ -21,4 +21,12 @@ module StoresHelper
       class: 'fa fa-lg %s' % [store.icon || 'fa-home'],
       style: 'color: %s' % [store.color || '#000']
   end
+
+  def check_for_colors
+    if COLORS_TABLE.include? @store[:color]
+      return '#000000'
+    else
+      return @store[:color]
+    end
+  end
 end
