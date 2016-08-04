@@ -308,7 +308,7 @@ fr:
         label: "Libellé"
         color: "Couleur"
         icon: "Icône"
-        ref: "référence"
+        ref: "Référence"
       user:
         email: "Email"
         customer: "Compte client"
