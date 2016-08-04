@@ -308,6 +308,7 @@ en:
         label: "Label"
         color: "Color"
         icon: "Icon"
+        ref: "Reference"
       user:
         email: "E-Mail"
         customer: "Account"
@@ -1306,6 +1307,7 @@ or you can click on this link to download file (no update in this case)."
       color_help: "Force use of this color"
       customised_color: "Select a custom color"
       icon_help: "Force use of this symbol"
+      ref: "Reference"
 
   users:
     menu:
