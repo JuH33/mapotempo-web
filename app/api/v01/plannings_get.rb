@@ -36,17 +36,21 @@ class V01::PlanningsGet < Grape::API
     params do
       optional :ids, type: Array[String], desc: 'Select returned plannings by id separated with comma. You can specify ref (not containing comma) instead of id, in this case you have to add "ref:" before each ref, e.g. ref:ref1,ref:ref2,ref:ref3.', coerce_with: CoerceArrayString
     end
+
     get do
       if env['api.format'] == :ics
-        if params.key?(:email)
-          current_customer.plannings.each do |planning|
-            planning.routes.joins(vehicle_usage: [:vehicle]).select{ |route| route.vehicle_usage.vehicle.contact_email }.each do |route|
-              route_calendar_email route
+        if params.key?(:planning_ids)
+          parameters = JSON.parse(params[:planning_ids]).map! { |e| e.to_i }
+          if YAML.load(params[:email])
+            current_customer.plannings.select { |plan| parameters.include? plan.id }.each do |planning|
+              planning.routes.joins(vehicle_usage: [:vehicle]).select{ |route| route.vehicle_usage.vehicle.contact_email }.each do |route|
+                route_calendar_email(route)
+              end
             end
+            status 204
+          else
+            planning_build_ical(parameters).to_ical
           end
-          status 204
-        else
-          plannings_calendar(current_customer.plannings).to_ical
         end
       else
         plannings = if params.key?(:ids)

@@ -41,22 +41,20 @@ module PlanningIcalendar
     end
   end
 
-  def plannings_calendar(plannings)
-    calendar = Icalendar::Calendar.new
-    plannings.each do |planning|
-      planning.routes.select(&:vehicle_usage).each do |route|
-        add_route_to_calendar calendar, route
-      end
-    end
-    return calendar
-  end
-
   def planning_calendar(planning)
     calendar = Icalendar::Calendar.new
     planning.routes.select(&:vehicle_usage).each do |route|
       add_route_to_calendar calendar, route
     end
     calendar
+  end
+
+  def planning_build_ical(calendar_ids)
+    calendar = Icalendar::Calendar.new
+    current_customer.plannings.select { |planning| calendar_ids.include? planning.id }.each do |planning|
+      planning.routes.select(&:vehicle_usage).each { |route| add_route_to_calendar calendar, route }
+    end
+    return calendar
   end
 
   def route_calendar(route)

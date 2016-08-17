@@ -785,7 +785,7 @@ var plannings_edit = function(params) {
     });
 
     // iCalendar Export
-    observe_icalendar_export();
+    observe_icalendar_export_local();
 
     $(".routes", context).sortable({
       disabled: true,
@@ -1515,30 +1515,45 @@ var plannings_show = function(params) {
   }
 };
 
-function observe_icalendar_export() {
-  $('.icalendar_email').click(function(e) {
-    e.preventDefault();
+function observe_icalendar_export_local(){
+  $('#ical_export, .icalendar_email').click(function(e){
+    $(this).hasClass('icalendar_email') && e.preventDefault()
     $.ajax({
       url: $(e.target).attr('href'),
       type: 'GET',
-      beforeSend: function(jqXHR, settings) {
-        beforeSendWaiting();
+      data: { 
+        planning_ids: get_the_planning_id_icalendar(),
+        email: $(this).hasClass('icalendar_email') ? true : false
       },
-      complete: function(jqXHR, textStatus) {
-        completeWaiting();
-      },
-      success: function(data, textStatus, jqXHR) {
-        notice(I18n.t('plannings.edit.export.icalendar.success'));
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        stickyError(I18n.t('plannings.edit.export.icalendar.fail'));
-      }
+    })
+    .done(function(data) {
+      notice(I18n.t('plannings.edit.export.icalendar.success'));
+    })
+    .fail(function() {
+      stickyError(I18n.t('plannings.edit.export.icalendar.fail'));
+    })
+    .always(function() {
+      console.log("complete");
     });
+    
   });
+}
+
+var get_the_planning_id_icalendar = function(){
+  var inputs = $('input[type=checkbox]'), paramsids = [], fullparams = [];
+  inputs.each(function(){
+    if ($(this).is(':checked')){
+      paramsids.push($(this).val());
+    }
+    else{
+      fullparams.push($(this).val());
+    }
+  });
+  return paramsids.length > 0 ? JSON.stringify( paramsids ) : JSON.stringify( fullparams );
 };
 
 var plannings_index = function(params) {
-  observe_icalendar_export();
+  observe_icalendar_export_local();
 };
 
 Paloma.controller('Plannings', {
