@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.2
--- Dumped by pg_dump version 9.5.2
+-- Dumped from database version 9.5.3
+-- Dumped by pg_dump version 9.5.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -87,7 +87,8 @@ CREATE TABLE customers (
     print_map boolean DEFAULT false NOT NULL,
     external_callback_url character varying,
     external_callback_name character varying,
-    enable_external_callback boolean DEFAULT false NOT NULL
+    enable_external_callback boolean DEFAULT false NOT NULL,
+    enable_global_optimization boolean DEFAULT false NOT NULL
 );
 
 
@@ -2375,3 +2376,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160720144957');
 INSERT INTO schema_migrations (version) VALUES ('20160722133109');
 
 INSERT INTO schema_migrations (version) VALUES ('20160804104220');
+
+INSERT INTO schema_migrations (version) VALUES ('20160818101635');
+
