@@ -54,6 +54,11 @@ class VehicleUsage < ActiveRecord::Base
   scope :active, lambda{ where(active: true) }
   scope :for_customer, lambda{ |customer| joins(:vehicle_usage_set).where(vehicle_usage_sets: { customer_id: customer.id }) }
 
+  include LocalizedAttr
+
+  #check the pram's value to get the minutes and hours set in secondes
+  time_set_up :working_time
+
   amoeba do
     exclude_association :routes
 

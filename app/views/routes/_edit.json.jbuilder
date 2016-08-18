@@ -31,6 +31,7 @@ if route.vehicle_usage
   (json.alyacom true) if route.planning.customer.alyacom?
   (json.masternaut true) if !route.vehicle_usage.vehicle.masternaut_ref.blank? && route.planning.customer.masternaut?
 end
+  
 number = 0
 no_geolocalization = out_of_window = out_of_capacity = out_of_drive_time = no_path = false
 json.store_start do
@@ -56,7 +57,7 @@ json.stops route.stops.sort_by{ |s| s.index || Float::INFINITY } do |stop|
   out_of_drive_time |= stop.out_of_drive_time
   no_geolocalization |= stop.is_a?(StopVisit) && !stop.position?
   no_path |= stop.position? && stop.active && route.vehicle_usage && !stop.trace && previous_with_pos
-  (json.error true) if (stop.is_a?(StopVisit) && !stop.position?) || (stop.position? && stop.active && route.vehicle_usage && !stop.trace && previous_with_pos) || stop.out_of_window || stop.out_of_capacity || stop.out_of_drive_time
+  (json.error true) if (stop.is_a?(StopVisit) && !stop.position?) || (stop.position? && stop.active && route.vehicle_usage && !stop.trace && previous_with_pos) || stop.out_of_window || stop.out_of_capacity || stop.out_of_drive_time || stop.out_of_working_time
   json.edit_planning true
   json.stop_id stop.id
   json.extract! stop, :name, :street, :detail, :postalcode, :city, :country, :comment, :phone_number, :lat, :lng, :drive_time, :trace, :out_of_window, :out_of_capacity, :out_of_drive_time
@@ -134,6 +135,7 @@ json.store_stop do
   (json.error true) if route.stop_out_of_drive_time
   json.stop_out_of_drive_time route.stop_out_of_drive_time
   out_of_drive_time |= route.stop_out_of_drive_time
+  
   json.stop_distance (route.stop_distance || 0) / 1000
   json.stop_drive_time route.stop_drive_time
 end if route.vehicle_usage && route.vehicle_usage.default_store_stop
@@ -143,4 +145,6 @@ end if route.vehicle_usage && route.vehicle_usage.default_store_stop
 (json.route_out_of_capacity out_of_capacity) if out_of_capacity
 (json.route_out_of_drive_time out_of_drive_time) if out_of_drive_time
 (json.route_no_path no_path) if no_path
-(json.route_error true) if no_geolocalization || out_of_window || out_of_capacity || out_of_drive_time
+out_of_working_time |= route.out_of_working_time
+(json.route_out_of_working_time out_of_working_time) if out_of_working_time
+(json.route_error true) if no_geolocalization || out_of_window || out_of_capacity || out_of_drive_time || out_of_working_time

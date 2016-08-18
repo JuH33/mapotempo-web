@@ -48,4 +48,5 @@ class V01::Entities::Stop < Grape::Entity
   expose(:out_of_window, documentation: { type: 'Boolean' })
   expose(:out_of_capacity, documentation: { type: 'Boolean' })
   expose(:out_of_drive_time, documentation: { type: 'Boolean' })
+  expose(:out_of_working_time, documentation: { type: 'Boolean', desc: 'Stop exceed the working time window' })
 end

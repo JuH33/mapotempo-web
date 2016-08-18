@@ -31,6 +31,7 @@ class V01::Entities::VehicleUsage < Grape::Entity
   expose(:rest_duration, documentation: { type: DateTime }) { |m| m.rest_duration && m.rest_duration.utc.strftime('%H:%M:%S') }
   expose(:store_rest_id, documentation: { type: Integer })
   expose(:active, documentation: { type: 'Boolean' })
+  expose(:working_time, documentation: { type: Integer, desc: 'Working time window in seconds'}) { |m| m.working_time && (Time.new(2000) + m.working_time).to_s(:time) }
 end
 
 class V01::Entities::VehicleUsageWithVehicle < V01::Entities::VehicleUsage

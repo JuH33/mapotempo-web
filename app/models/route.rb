@@ -80,6 +80,8 @@ class Route < ActiveRecord::Base
     self.emission = 0
     self.start = self.end = nil
     last_lat, last_lng = nil, nil
+    rest_is_active = false
+    rest_working_time, stop_working_time = vehicle_usage.working_time ||= false, vehicle_usage.working_time ||= false
     if vehicle_usage && !stops.empty?
       service_time_start = service_time_start_value
       service_time_end = service_time_end_value
@@ -149,6 +151,15 @@ class Route < ActiveRecord::Base
 
       # Recompute Stops
       stops_time_windows = {}
+
+        #selecte rest duration when StopVist get over working window
+        stops_sort.select do |stop_rest|
+          if stop_rest.is_a?(StopRest) && stop_rest.active && !vehicle_usage.working_time.nil?
+            stop_working_time += vehicle_usage.default_rest_duration.seconds_since_midnight.to_i
+            rest_is_active = true
+          end
+        end
+
       stops_sort.each{ |stop|
         if stop.active && (stop.position? || (stop.is_a?(StopRest) && ((stop.open1 && stop.close1) || (stop.open2 && stop.close2)) && stop.duration))
           stop.distance, stop.drive_time, stop.trace = traces.shift
@@ -182,8 +193,8 @@ class Route < ActiveRecord::Base
               quantity1_2 += (stop.visit.quantity1_2 || 1)
               stop.out_of_capacity = (vehicle_usage.vehicle.capacity1_1 && quantity1_1 > vehicle_usage.vehicle.capacity1_1) || (vehicle_usage.vehicle.capacity1_2 && quantity1_2 > vehicle_usage.vehicle.capacity1_2)
             end
-
             stop.out_of_drive_time = stop.time > vehicle_usage.default_close
+            stop_working_time && !vehicle_usage.working_time.nil? ? stop.out_of_working_time = stop.time > self.start + stop_working_time : stop.out_of_working_time = false
           end
         else
           stop.active = stop.out_of_capacity = stop.out_of_drive_time = stop.out_of_window = false
@@ -207,6 +218,15 @@ class Route < ActiveRecord::Base
 
       self.stop_trace = trace
       self.stop_out_of_drive_time = self.end > vehicle_usage.default_close
+
+      #add time when using working time value
+      if rest_working_time && !vehicle_usage.working_time.nil?
+        rest_working_time += vehicle_usage.default_rest_duration.seconds_since_midnight.to_int if rest_is_active
+        self.out_of_working_time = self.end - self.start > rest_working_time
+      else
+        self.out_of_working_time = false
+      end
+      
 
       self.emission = vehicle_usage.vehicle.emission.nil? || vehicle_usage.vehicle.consumption.nil? ? nil : self.distance / 1000 * vehicle_usage.vehicle.emission * vehicle_usage.vehicle.consumption / 100
 

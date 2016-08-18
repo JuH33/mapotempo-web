@@ -47,4 +47,5 @@ class V01::Entities::Route < Grape::Entity
   expose(:updated_at, documentation: { type: DateTime, desc: 'Last Updated At'})
   expose(:last_sent_at, documentation: { type: DateTime, desc: 'Last Time Sent To External GPS Device'})
   expose(:optimized_at, documentation: { type: DateTime, desc: 'Last optimized at'})
+  expose(:out_of_working_time, documentation: { type: Integer, desc: 'Working time window exceed'})
 end

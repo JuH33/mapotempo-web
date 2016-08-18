@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.2
--- Dumped by pg_dump version 9.5.2
+-- Dumped from database version 9.5.4
+-- Dumped by pg_dump version 9.5.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -87,7 +87,8 @@ CREATE TABLE customers (
     print_map boolean DEFAULT false NOT NULL,
     external_callback_url character varying,
     external_callback_name character varying,
-    enable_external_callback boolean DEFAULT false NOT NULL
+    enable_external_callback boolean DEFAULT false NOT NULL,
+    enable_global_optimization boolean DEFAULT false NOT NULL
 );
 
 
@@ -562,7 +563,8 @@ CREATE TABLE routes (
     vehicle_usage_id integer,
     stop_drive_time integer,
     last_sent_at timestamp without time zone,
-    optimized_at timestamp without time zone
+    optimized_at timestamp without time zone,
+    out_of_working_time boolean
 );
 
 
@@ -616,6 +618,7 @@ CREATE TABLE stops (
     type character varying DEFAULT 'StopDestination'::character varying NOT NULL,
     drive_time integer,
     visit_id integer,
+    out_of_working_time boolean,
     CONSTRAINT check_visit_id CHECK ((((type)::text <> 'StopVisit'::text) OR (visit_id IS NOT NULL)))
 );
 
@@ -850,7 +853,8 @@ CREATE TABLE vehicle_usages (
     service_time_end time without time zone,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    active boolean DEFAULT true
+    active boolean DEFAULT true,
+    working_time integer
 );
 
 
@@ -2375,3 +2379,12 @@ INSERT INTO schema_migrations (version) VALUES ('20160720144957');
 INSERT INTO schema_migrations (version) VALUES ('20160722133109');
 
 INSERT INTO schema_migrations (version) VALUES ('20160804104220');
+
+INSERT INTO schema_migrations (version) VALUES ('20160808122930');
+
+INSERT INTO schema_migrations (version) VALUES ('20160817123554');
+
+INSERT INTO schema_migrations (version) VALUES ('20160818101635');
+
+INSERT INTO schema_migrations (version) VALUES ('20160822073911');
+

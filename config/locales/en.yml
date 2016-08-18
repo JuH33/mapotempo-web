@@ -1074,6 +1074,7 @@ or you can click on this link to download file (no update in this case)."
         out_of_capacity_help: "Vehicle capacity exceeded"
         out_of_drive_time: "Out of vehicle time window"
         out_of_drive_time_help: "Vehicle time window activity exceeded"
+        out_of_working_time: "Planning window out of working time"
         no_path: "Unreachable destination"
         no_path_help: "Unreachable destination: missing or no path to or from the destination to find a route"
       dialog:
@@ -1611,6 +1612,8 @@ or you can click on this link to download file (no update in this case)."
       create: "Create %{model}"
       update: "Save %{model}"
       submit: "Save %{model}"
+  number:
+    format:
 
   devise:
     shared:

@@ -23,6 +23,17 @@ module LocalizedAttr
     def localize_numeric_value(value)
       number_with_delimiter ("%g" % value).gsub('.', I18n.t('number.format.separator'))
     end
+    def time_set_up(*names)
+      names.each do |name|
+        define_method("#{name}=") do |value|
+          if /^[0-9]{2}:[0-9]{2}$/.match(value.to_s)
+            secondes = value.split(":")
+            self[name] = ((secondes[0].to_i * (60*60)) + (secondes[1].to_i * 60))
+          elsif value.is_a?(Integer)
+            self[name] = value.to_i
+          end
+        end
+      end
+    end
   end
-
 end

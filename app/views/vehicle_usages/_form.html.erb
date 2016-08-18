@@ -139,6 +139,21 @@
         <p class="help-block"><%= t '.open_close_help' %></p>
       </div>
     </div>
+    <div id="vehicle_usage_working_time" class="form-group">
+      <label class="sr-only" for="vehicle_usage_working_time"><%= t 'activerecord.attributes.vehicle_usage.close' %></label>
+      <label class="col-md-2 control-label"><%= t 'vehicle_usages.form.open_close' %></label>
+      <div class="col-md-6">
+        <div class="input-group">
+          <span class="input-group-addon"><%= t 'web.form.work_time' %></span>
+          <%= text_field :vehicle_usage, :working_time,
+            class: 'form-control',
+            placeholder: t('vehicle_usages.form.open.default', n: l(Time.new(2000) + (@vehicle_usage.working_time  || 25200), format: :hour_minute)),
+            value: @vehicle_usage.working_time && l(Time.new(2000) + (@vehicle_usage.working_time || 25200), format: :hour_minute) %>
+          <span class="input-group-addon"><i class="fa fa-clock-o" aria-hidden="true"></i></span>
+        </div>
+        <p class="help-block"><%= t 'vehicle_usages.form.working_time_total' %></p>
+      </div>
+    </div>
     <div id="vehicle_usage_store_input" class="form-group">
       <label class="sr-only" for="vehicle_usage_store_start"><%= t 'activerecord.attributes.vehicle_usage.store_start' %></label>
       <label class="sr-only" for="vehicle_usage_store_stop"><%= t 'activerecord.attributes.vehicle_usage.store_stop' %></label>

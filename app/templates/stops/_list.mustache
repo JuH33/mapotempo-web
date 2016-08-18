@@ -85,6 +85,9 @@
           {{#route_no_path}}
             <li title="{{#i18n}}plannings.edit.error.no_path_help{{/i18n}}"><i class="fa fa-road fa-fw"></i> {{#i18n}}plannings.edit.error.no_path{{/i18n}}</li>
           {{/route_no_path}}
+          {{#route_out_of_working_time}}
+            <li title="{{#i18n}}plannings.edit.error.out_of_working_time{{/i18n}}"><i class='fa fa-user-times'> {{#i18n}}plannings.edit.error.out_of_working_time{{/i18n}}</i></li>
+          {{/route_out_of_working_time}}
         </ul>
       {{/route_error}}
     </div>
