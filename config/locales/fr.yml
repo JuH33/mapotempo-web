@@ -1140,6 +1140,7 @@ fr:
     new:
       title: "Nouveau planning"
     export_file:
+      planning: "planning"
       ref: "référence"
       vehicle: "véhicule"
       route: "tournée"

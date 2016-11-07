@@ -1140,6 +1140,7 @@ or you can click on this link to download file (no update in this case)."
     new:
       title: "New plan"
     export_file:
+      planning: "planning"
       ref: "reference"
       vehicle: "vehicle"
       route: "route"
