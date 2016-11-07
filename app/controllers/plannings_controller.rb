@@ -28,6 +28,7 @@ class PlanningsController < ApplicationController
   def index
     @plannings = current_user.customer.plannings
     @customer = current_user.customer
+    @spreadsheet_columns = export_columns
   end
 
   def show
@@ -362,8 +363,8 @@ class PlanningsController < ApplicationController
 
       :ref_visit,
       :duration,
-      @planning.customer.enable_orders ? :orders : :quantity1_1,
-      @planning.customer.enable_orders ? nil : :quantity1_2,
+      (@customer) ? @customer.enable_orders ? :orders : :quantity1_1 : @planning.customer.enable_orders ? :orders : :quantity1_1,
+      (@customer) ? @customer.enable_orders ? nil : :quantity1_2 : @planning.customer.enable_orders ? :orders : :quantity1_1,
       :open1,
       :close1,
       :open2,
