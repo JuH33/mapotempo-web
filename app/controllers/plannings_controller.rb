@@ -332,6 +332,7 @@ class PlanningsController < ApplicationController
 
   def export_columns
     [
+      :ref_planning,
       :planning,
       :route,
       :vehicle,

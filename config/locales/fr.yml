@@ -928,6 +928,7 @@ fr:
       new: "Nouveau planning"
       export_icalendar: "Agenda iCal"
       export_icalendar_email: "Agenda iCal par email"
+      spreadsheet: "Tableur CSV / Excel"
     edit:
       vehicles: "Véhicules"
       position: "Position"
@@ -1140,6 +1141,7 @@ fr:
     new:
       title: "Nouveau planning"
     export_file:
+      ref_planning: "référence planning"
       planning: "planning"
       ref: "référence"
       vehicle: "véhicule"
