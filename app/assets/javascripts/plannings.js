@@ -114,8 +114,9 @@ var exportSpreadsheetModal = function(params, id = void(0)) {
     }).get().join('|');
     var spreadsheetFormat = localStorage.spreadsheetFormat = $('[name=spreadsheet-format]:checked').val();
     var planningsId = getPlanningsId();
-    var basePath = $('[name=spreadsheet-route]').val() ? ('/routes/' + $('[name=spreadsheet-route]').val()) : ('/plannings/' + (id || planningsId[0]));
+    var basePath = $('[name=spreadsheet-route]').val() ? ('/routes/' + $('[name=spreadsheet-route]').val()) : ('/plannings/' + (id || planningsId));
     window.location.href = basePath + '.' + spreadsheetFormat + '?stops=' + spreadsheetStops + '&columns=' + spreadsheetColumnsExport;
+    console.log(window.location.href);
   });
   $('.export_spreadsheet').click(function() {
     $('#planning-spreadsheet-modal').modal({

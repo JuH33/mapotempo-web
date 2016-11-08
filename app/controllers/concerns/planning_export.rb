@@ -1,6 +1,7 @@
 module PlanningExport
   extend ActiveSupport::Concern
 
+  #construc all the file name for export (need to be improved)
   def export_filename(planning, ref)
     array = []
     array << planning.name
