@@ -1006,6 +1006,9 @@ fr:
           action: "Tracé KMZ par email"
           success: "Email envoyé avec succès"
           fail: "Échec lors de l'envoi de l'email"
+        csv:
+          success: "CSV exporté avec succès"
+          fail: "Veuillez sélectionner un/des planning(s) à exporter"
         print: "Imprimer"
         spreadsheet: "Tableur CSV / Excel"
         gpx_route: "Route GPX"

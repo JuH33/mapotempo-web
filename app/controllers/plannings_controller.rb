@@ -27,8 +27,15 @@ class PlanningsController < ApplicationController
 
   def index
     @plannings = current_user.customer.plannings
+    @planning = @plannings[0]
     @customer = current_user.customer
     @spreadsheet_columns = export_columns
+    @params = params
+    respond_to do |format|
+      format.html
+      format.json
+      csv_export(format)
+    end
   end
 
   def show
@@ -64,17 +71,7 @@ class PlanningsController < ApplicationController
             filename: filename + '.kmz'
         end
       end
-      format.excel do
-        @columns = (@params[:columns] && @params[:columns].split('|')) || export_columns
-        data = render_to_string.gsub("\n", "\r\n")
-        send_data Iconv.iconv('ISO-8859-1//translit//ignore', 'utf-8', data).join(''),
-            type: 'text/csv',
-            filename: filename + '.csv'
-      end
-      format.csv do
-        @columns = (@params[:columns] && @params[:columns].split('|')) || export_columns
-        response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
-      end
+      csv_export(format)
     end
   end
 
@@ -303,6 +300,20 @@ class PlanningsController < ApplicationController
           render json: @planning.errors, status: :unprocessable_entity
         end
       end
+    end
+  end
+
+  def csv_export(format)
+    format.excel do
+      @columns = (@params[:columns] && @params[:columns].split('|')) || export_columns
+      data = render_to_string.gsub("\n", "\r\n")
+      send_data Iconv.iconv('ISO-8859-1//translit//ignore', 'utf-8', data).join(''),
+      type: 'text/csv',
+      filename: filename + '.csv'
+      end
+    format.csv do
+      @columns = (@params[:columns] && @params[:columns].split('|')) || export_columns
+      response.headers['Content-Disposition'] = 'attachment; filename="' + filename + '.csv"'
     end
   end
 
