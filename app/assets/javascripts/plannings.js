@@ -115,7 +115,7 @@ var exportSpreadsheetModal = function(columns, id) {
     var spreadsheetFormat = localStorage.spreadsheetFormat = $('[name=spreadsheet-format]:checked').val();
     var planningsId = getPlanningsId();
     var basePath = $('[name=spreadsheet-route]').val() ? ('/routes/' + $('[name=spreadsheet-route]').val()) : (id) ? '/plannings/' + id : '/plannings';
-    if(id || planningsId.length != 0) {
+    if (id || planningsId.length != 0) {
       window.location.href = basePath + '.' + spreadsheetFormat + '?stops=' + spreadsheetStops + '&columns=' + spreadsheetColumnsExport + "&ids=" + planningsId;
       notice(I18n.t('plannings.edit.export.csv.success'));
     } else {

@@ -26,15 +26,16 @@ class PlanningsController < ApplicationController
   include PlanningExport
 
   def index
-    @plannings = current_user.customer.plannings
-    @planning = @plannings[0]
+    @plannings = current_user.customer.plannings.select{ |planning|
+      !params.key?(:ids) || (params[:ids] && params[:ids].split(',').include?(planning.id.to_s))
+    }
     @customer = current_user.customer
     @spreadsheet_columns = export_columns
     @params = params
     respond_to do |format|
       format.html
       format.json
-      csv_export(format)
+      format_csv(format)
     end
   end
 
@@ -71,7 +72,7 @@ class PlanningsController < ApplicationController
             filename: filename + '.kmz'
         end
       end
-      csv_export(format)
+      format_csv(format)
     end
   end
 
@@ -303,7 +304,7 @@ class PlanningsController < ApplicationController
     end
   end
 
-  def csv_export(format)
+  def format_csv(format)
     format.excel do
       @columns = (@params[:columns] && @params[:columns].split('|')) || export_columns
       data = render_to_string.gsub("\n", "\r\n")
@@ -339,7 +340,11 @@ class PlanningsController < ApplicationController
   end
 
   def filename
-    export_filename @planning, @planning.ref
+    if @planning
+      export_filename @planning, @planning.ref;
+    else
+      I18n.t('plannings.menu.plannings') + "_" + I18n.l(Time.now, format: :datepicker)
+    end
   end
 
   def export_columns
