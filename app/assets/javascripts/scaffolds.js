@@ -15,7 +15,7 @@
 // along with Mapotempo. If not, see:
 // <http://www.gnu.org/licenses/agpl.html>
 //
-$(document).on('ready page:load', function() {
+$(document).on('ready turbolinks:load', function() {
   $('.index_toggle_selection').click(function() {
     $('input:checkbox').each(function() {
       this.checked = !this.checked;

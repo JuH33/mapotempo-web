@@ -191,9 +191,9 @@ var progressDialog = function(delayedJob, dialog, url, callback, errorCallback, 
           error: ajaxError
         });
       }, 2000);
-      $(document).on('page:before-change', function(e) {
+      $(document).on('turbolinks:before-load', function(e) {
         clearTimeout(planningTimerId);
-        $(document).off('page:before-change');
+        $(document).off('turbolinks:before-load');
       });
     }
     return false;

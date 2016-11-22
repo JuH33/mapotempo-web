@@ -199,7 +199,7 @@ var plannings_edit = function(params) {
     vehicleLayer = L.featureGroup();
     queryVehicles();
     tid = setInterval(queryVehicles, 30000);
-    $(document).on('page:before-change', function() {
+    $(document).on('turbolinks:before-load', function() {
       clearInterval(tid);
     });
     if (!params.overlay_layers) params.overlay_layers = {};

@@ -94,12 +94,12 @@ var zonings_edit = function(params) {
         e.preventDefault();
       }
     }
-    $(document).on('page:change', function(e) {
-      $(document).off('page:before-change', checkZoningChanges);
+    $(document).on('turbolinks:load', function(e) {
+      $(document).off('turbolinks:before-load', checkZoningChanges);
     });
   }
 
-  $(document).on('page:before-change', checkZoningChanges);
+  $(document).on('turoblinks:update', checkZoningChanges);
 
   map.on('draw:editstart', function(e) {
     editing_drawing = true;

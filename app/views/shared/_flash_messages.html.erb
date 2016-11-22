@@ -1,6 +1,6 @@
 
 <script type="text/javascript">
-  $(document).on('page:change', function() {
+  $(document).on('turbolinks:load', function() {
     hideNotices();
     <% flash.each do |k, v| %>
       <% if ['alert', 'error'].include?(k) %>

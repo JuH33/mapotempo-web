@@ -80,14 +80,16 @@
 //= require_tree .
 // jQuery Turbolinks documentation informs to load all scripts before turbolinks
 //= require turbolinks
-Turbolinks.enableProgressBar();
-// bug in Firefox 40 when printing multi pages with progress bar
-window.onbeforeprint = function() {
-  Turbolinks.enableProgressBar(false);
-};
-window.onafterprint = function() {
-  Turbolinks.enableProgressBar();
-};
+
+
+// Turbolinks.enableProgressBar();
+// // bug in Firefox 40 when printing multi pages with progress bar
+// window.onbeforeprint = function() {
+//   Turbolinks.enableProgressBar(false);
+// };
+// window.onafterprint = function() {
+//   Turbolinks.enableProgressBar();
+// };
 
 $(document).ready(function() {
   startSpinner = function() {
@@ -96,12 +98,12 @@ $(document).ready(function() {
   stopSpinner = function() {
     $('body').removeClass('turbolinks_waiting');
   };
-  $(document).on("page:fetch", startSpinner);
-  $(document).on("page:receive", stopSpinner);
+  $(document).on("turbolinks:request-start", startSpinner);
+  $(document).on("turbolinks:render", stopSpinner);
 
   Paloma.start();
 });
 
-$(document).on('page:restore', function() {
+$(document).on('turbolinks:load', function() {
   Paloma.start();
 });
