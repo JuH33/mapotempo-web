@@ -86,11 +86,9 @@ module VehicleUsagesHelper
   end
 
   def vehicle_external_services(vehicle)
-    services = []
-    services << 'TomTom' if !vehicle.tomtom_id.blank?
-    services << 'Teksat' if !vehicle.teksat_id.blank?
-    services << 'Orange' if !vehicle.orange_id.blank?
-    services.join(', ')
+    vehicle.devices.select{ |key, value| !value.nil? }.collect{ |key, value|
+      key.to_s.split('_').first.capitalize
+    }.join(', ')
   end
 
   def vehicle_capacities(vehicle)

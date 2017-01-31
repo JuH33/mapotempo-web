@@ -15,6 +15,8 @@
 # along with Mapotempo. If not, see:
 # <http://www.gnu.org/licenses/agpl.html>
 #
+require "value_to_boolean"
+
 module ApplicationHelper
   def span_tag(content)
     content_tag :span, content, class: 'default-color'
@@ -49,5 +51,9 @@ module ApplicationHelper
     end
 
     number_to_human(distance, options)
+  end
+
+  def to_bool(str)
+    ValueToBoolean.value_to_boolean str
   end
 end
