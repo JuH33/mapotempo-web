@@ -597,7 +597,6 @@ CREATE TABLE routes (
     hidden boolean,
     locked boolean,
     out_of_date boolean,
-    stop_trace text,
     stop_out_of_drive_time boolean,
     stop_distance double precision,
     ref character varying(255),
@@ -608,7 +607,10 @@ CREATE TABLE routes (
     optimized_at timestamp without time zone,
     last_sent_to character varying,
     start integer,
-    "end" integer
+    "end" integer,
+    geojson_tracks text,
+    geojson_points text,
+    stop_no_path text
 );
 
 
@@ -649,7 +651,6 @@ CREATE TABLE stops (
     index integer,
     active boolean,
     distance double precision,
-    trace text,
     route_id integer NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
@@ -664,6 +665,7 @@ CREATE TABLE stops (
     status character varying,
     eta timestamp without time zone,
     "time" integer,
+    no_path boolean,
     CONSTRAINT check_visit_id CHECK ((((type)::text <> 'StopVisit'::text) OR (visit_id IS NOT NULL)))
 );
 
@@ -2598,3 +2600,4 @@ INSERT INTO schema_migrations (version) VALUES ('20170424152112');
 
 INSERT INTO schema_migrations (version) VALUES ('20170427142658');
 
+INSERT INTO schema_migrations (version) VALUES ('20170516093305');
