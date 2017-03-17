@@ -1,4 +1,4 @@
-# Copyright © Mapotempo, 2016
+# Copyright © Mapotempo, 2017
 #
 # This file is part of Mapotempo.
 #
@@ -15,17 +15,24 @@
 # along with Mapotempo. If not, see:
 # <http://www.gnu.org/licenses/agpl.html>
 #
-class DeviceBase
-  attr_accessor :api_url, :api_key
-
-  def planning_date(planning)
-    planning.date ? planning.date.beginning_of_day : Time.zone.now.beginning_of_day
+class Locster < DeviceBase
+  def definition
+    {
+      device: 'locster',
+      label: 'Locster',
+      label_small: 'Locster',
+      route_operations: [:send],
+      has_sync: false,
+      help: false,
+      forms: {
+        settings: {
+          username: :text,
+          password: :password
+        },
+        vehicle: {
+          locster_ref: :text
+        },
+      }
+    }
   end
-
-  def p_time(route, time)
-    planning_date(route.planning) + (time.utc - Time.utc(2000, 1, 1, 0, 0))
-  end
-end
-
-class DeviceServiceError < StandardError
 end
