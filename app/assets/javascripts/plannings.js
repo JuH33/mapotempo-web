@@ -759,7 +759,7 @@ var plannings_edit = function(params) {
     });
   };
 
-  var initRoutes = function(context, data) {
+  var initRoutes = function(context, data, options) {
 
     $.each($('.customer_external_callback_url'), function(i, element) {
       $(element).click(function(e) {
