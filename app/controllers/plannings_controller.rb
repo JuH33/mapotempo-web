@@ -268,7 +268,7 @@ class PlanningsController < ApplicationController
   def active
     route = @planning.routes.find{ |route| route.id == Integer(params[:route_id]) }
     respond_to do |format|
-      if route && route.active(params[:active].to_s.to_sym) && route.compute && @planning.save
+      if route && route.active(params[:active].to_s.to_sym) && route.compute! && @planning.save
         @routes = [route]
         format.json { render action: 'show', location: @planning }
       else
@@ -288,7 +288,7 @@ class PlanningsController < ApplicationController
   def reverse_order
     route = @planning.routes.find{ |route| route.id == Integer(params[:route_id]) }
     respond_to do |format|
-      if route && route.reverse_order && route.compute && @planning.save
+      if route && route.reverse_order && route.compute! && @planning.save
         @routes = [route]
         format.json { render action: 'show', location: @planning }
       else
