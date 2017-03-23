@@ -60,43 +60,25 @@ CREATE TABLE customers (
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     name character varying(255),
-    tomtom_account character varying(255),
-    tomtom_user character varying(255),
-    tomtom_password character varying(255),
     router_id integer NOT NULL,
     print_planning_annotating boolean,
     print_header text,
-    masternaut_user character varying(255),
-    masternaut_password character varying(255),
     enable_orders boolean DEFAULT false NOT NULL,
     test boolean DEFAULT false NOT NULL,
-    alyacom_association character varying(255),
     optimization_cluster_size integer,
     optimization_time integer,
     optimization_stop_soft_upper_bound double precision,
     profile_id integer NOT NULL,
     speed_multiplicator double precision DEFAULT 1.0 NOT NULL,
     default_country character varying NOT NULL,
-    enable_tomtom boolean DEFAULT false NOT NULL,
-    enable_masternaut boolean DEFAULT false NOT NULL,
-    enable_alyacom boolean DEFAULT false NOT NULL,
     job_store_geocoding_id integer,
     reseller_id integer NOT NULL,
     enable_multi_vehicle_usage_sets boolean DEFAULT false NOT NULL,
     print_stop_time boolean DEFAULT true NOT NULL,
     ref character varying,
     enable_references boolean DEFAULT true,
-    enable_teksat boolean,
-    teksat_customer_id integer,
-    teksat_username character varying,
-    teksat_password character varying,
-    teksat_url character varying,
     enable_multi_visits boolean DEFAULT false NOT NULL,
-    enable_orange boolean,
-    orange_user character varying,
-    orange_password character varying,
     router_dimension integer DEFAULT 0 NOT NULL,
-    alyacom_api_key character varying,
     advanced_options text,
     print_map boolean DEFAULT false NOT NULL,
     external_callback_url character varying,
@@ -108,7 +90,8 @@ CREATE TABLE customers (
     enable_vehicle_position boolean DEFAULT true NOT NULL,
     enable_stop_status boolean DEFAULT false NOT NULL,
     router_options hstore DEFAULT ''::hstore NOT NULL,
-    cost_waiting_time double precision
+    cost_waiting_time double precision,
+    devices jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 
@@ -944,18 +927,15 @@ CREATE TABLE vehicles (
     customer_id integer NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    tomtom_id character varying(255),
     router_id integer,
-    masternaut_ref character varying(255),
     speed_multiplicator double precision,
     ref character varying,
     contact_email character varying,
-    teksat_id character varying,
-    orange_id character varying,
     fuel_type character varying,
     router_dimension integer,
     capacities hstore,
-    router_options hstore DEFAULT ''::hstore NOT NULL
+    router_options hstore DEFAULT ''::hstore NOT NULL,
+    devices jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 
@@ -2579,3 +2559,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170310101048');
 
 INSERT INTO schema_migrations (version) VALUES ('20170314132235');
 
+INSERT INTO schema_migrations (version) VALUES ('20170314132236');
+
+INSERT INTO schema_migrations (version) VALUES ('20170314132237');
