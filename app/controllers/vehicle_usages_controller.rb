@@ -70,10 +70,6 @@ class VehicleUsagesController < ApplicationController
                                                            :emission,
                                                            :consumption,
                                                            :color,
-                                                           :tomtom_id,
-                                                           :teksat_id,
-                                                           :orange_id,
-                                                           :masternaut_ref,
                                                            :router_id,
                                                            :router_dimension,
                                                            :speed_multiplicator,
@@ -93,11 +89,27 @@ class VehicleUsagesController < ApplicationController
                                                                :width,
                                                                :length,
                                                                :hazardous_goods
-                                                           ]
+                                                           ],
+                                                           devices: permit_devices
                                                        ])
     if parameters.key?(:vehicle)
       parameters[:vehicle_attributes] = parameters[:vehicle]
       parameters.except(:vehicle)
+      parameters.delete :vehicle
+      parameters
     end
+  end
+
+  def permit_devices
+    permit = []
+    Mapotempo::Application.config.devices.to_h.each{ |device_name, device_object|
+      if device_object.respond_to?('definition')
+        device_definition = device_object.definition
+        if device_definition.key?(:forms) && device_definition[:forms].key?(:vehicle)
+          permit << device_definition[:forms][:vehicle].first.second
+        end
+      end
+    }
+    permit
   end
 end
