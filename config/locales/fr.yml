@@ -218,8 +218,15 @@ fr:
             url: "URL"
             teksat_id: "Teksat"
           trimble:
+            customer: "Compte client"
+            username: "Utilisateur"
+            password: "Mot de passe"
           locster:
+            username: "Utilisateur"
+            password: "Mot de passe"
           suivi_de_flotte:
+            username: "Utilisateur"
+            password: "Mot de passe"
       deliverable_unit:
         label: "Libellé"
         ref: "Référence"
