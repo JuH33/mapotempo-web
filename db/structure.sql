@@ -609,7 +609,7 @@ CREATE TABLE routes (
     "end" integer,
     geojson_tracks text,
     geojson_points text,
-    stop_no_path text
+    stop_no_path boolean
 );
 
 
