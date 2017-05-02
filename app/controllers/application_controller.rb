@@ -126,5 +126,4 @@ class ApplicationController < ActionController::Base
     # Raise error in development for debugging and in production for sentry
     raise
   end
-
 end
