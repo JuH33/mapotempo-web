@@ -87,10 +87,14 @@ var spreadsheetModalExport = function(columns, planningId) {
   var appendElement = function(parentSel, columnKey) {
     var displayName;
     var match = columnKey.match(new RegExp('^(.+)\\[(.*)\\]$'));
-    if (match)
-      displayName = I18n.t('plannings.export_file.' + match[1]) + '[' + match[2] + ']';
-    else
-      displayName = I18n.t('plannings.export_file.' + columnKey);
+    if (match) {
+      var export_translation = 'plannings.export_file.' + match[1];
+      displayName = I18n.t(export_translation) + '[' + match[2] + ']';
+    }
+    else {
+      var export_translation = 'plannings.export_file.' + columnKey;
+      displayName = I18n.t(export_translation);
+    }
     $(parentSel).append('<li data-value="' + columnKey + '">' + displayName + ' <a class="remove"><i class="fa fa-close fa-fw"></i></a></li>');
   };
   $.each(columnsExport, function(i, c) {
@@ -103,7 +107,7 @@ var spreadsheetModalExport = function(columns, planningId) {
   });
   $('#columns-export a.remove').click(function(evt) {
     var $elem = $(evt.currentTarget).closest('li');
-    if ($elem.parent()[0].id == 'columns-export') {
+    if ($elem.parent()[0].id === 'columns-export') {
       var nextFocus = $elem.next();
       $('a.remove', $elem).hide();
       $('#columns-skip').append($elem);
@@ -1844,7 +1848,7 @@ var devicesObservePlanning = (function() {
   var _devicesInitVehicle = function(callback) {
 
     $.each($('.last-sent-at', _context), function(i, element) {
-      if ($(element).find('span').html() == '') $(element).hide();
+      if ($(element).find('span').html() === '') $(element).hide();
     });
 
     // Still needed, maybe ask to FLO why ?!
@@ -1857,11 +1861,12 @@ var devicesObservePlanning = (function() {
         url = '/api/0.1/devices/' + service + '/' + operation,
         data = {};
 
+      var service_translation = 'plannings.edit.dialog.' + service + '.in_progress';
       var dialog = bootstrap_dialog({
         icon: 'fa-bars',
         title: service && service.substr(0, 1).toUpperCase() + service.substr(1),
         message: SMT['modals/default_with_progress']({
-          msg: I18n.t('plannings.edit.dialog.' + service + '.in_progress')
+          msg: I18n.t(service_translation)
         })
       });
 
@@ -1871,7 +1876,7 @@ var devicesObservePlanning = (function() {
 
       $.ajax({
         url: url + (data.planning_id ? '_multiple' : ''),
-        type: (operation == 'clear') ? 'DELETE' : 'POST',
+        type: (operation === 'clear') ? 'DELETE' : 'POST',
         dataType: 'json',
         data: data,
         beforeSend: function() {
@@ -1881,15 +1886,16 @@ var devicesObservePlanning = (function() {
           if (data && data.error) {
             stickyError(data.error);
           } else {
-            notice(I18n.t('plannings.edit.' + service + '_' + operation + (from.data('type') ? '_' + from.data('type') : '') + '.success'));
+            var service_translation = 'plannings.edit.' + service + '_' + operation + (from.data('type') ? '_' + from.data('type') : '') + '.success';
+            notice(I18n.t(service_translation));
 
-            if (from.data('planning-id') && operation == 'send')
+            if (from.data('planning-id') && operation === 'send')
               _setPlanningRoutesLastSentAt(data);
-            else if (from.data('planning-id') && operation == 'clear')
+            else if (from.data('planning-id') && operation === 'clear')
               _clearPlanningRoutesLastSentAt(data);
-            else if (from.data('route-id') && operation == 'send')
+            else if (from.data('route-id') && operation === 'send')
               _setLastSentAt(data);
-            else if (from.data('route-id') && operation == 'clear')
+            else if (from.data('route-id') && operation === 'clear')
               _clearLastSentAt(data, _context);
 
             callback && callback(from); // for backgroundTask
@@ -1899,7 +1905,8 @@ var devicesObservePlanning = (function() {
           dialog.modal('hide');
         },
         error: function() {
-          stickyError(I18n.t('plannings.edit.' + service + '_' + operation + (from.data('type') ? '_' + from.data('type') : '') + '.fail'));
+          var service_error_translation = 'plannings.edit.' + service + '_' + operation + (from.data('type') ? '_' + from.data('type') : '') + '.fail';
+          stickyError(I18n.t(service_error_translation));
         }
       });
 
@@ -1907,12 +1914,12 @@ var devicesObservePlanning = (function() {
       $(this).closest(".dropdown-menu").prev().dropdown("toggle");
       return false;
     });
-  }
+  };
 
   var init = function(context, callback) {
     _context = context;
     _devicesInitVehicle(callback);
-  }
+  };
 
   return { init: init };
 

@@ -450,7 +450,6 @@ en:
     errors:
       attributes:
         inconsistent_customer: is not authorized for this customer
-        visits: Visit
       models:
         location:
           missing_address_or_latlng: Postalcode and city cannot be empty if lat/lng
@@ -462,6 +461,7 @@ en:
           attributes:
             capacities:
               not_float: must be a number
+              vehicle_capacity: cannot be a negative value
         vehicles:
           at_least_one: At least one vehicle needed
         vehicle_usage:
@@ -1338,6 +1338,7 @@ en:
       order_array: Orders
       zonings_help: Allow to automatically assign vehicles to visits/destinations with geographic zones.
       avoid_zones_help: In addition, allow to define zones where vehicle cannot circulate.
+      default_date: Current date by default
       default: Default
     show:
       print: Print
