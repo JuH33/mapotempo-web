@@ -169,7 +169,9 @@ CREATE TABLE deliverable_units (
     default_capacity double precision,
     optimization_overload_multiplier double precision,
     ref character varying,
-    icon character varying
+    icon character varying,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -2601,3 +2603,5 @@ INSERT INTO schema_migrations (version) VALUES ('20170424152112');
 INSERT INTO schema_migrations (version) VALUES ('20170427142658');
 
 INSERT INTO schema_migrations (version) VALUES ('20170516093305');
+
+INSERT INTO schema_migrations (version) VALUES ('20170516093306');
