@@ -473,7 +473,9 @@ ALTER SEQUENCE products_id_seq OWNED BY products.id;
 
 CREATE TABLE profiles (
     id integer NOT NULL,
-    name character varying
+    name character varying,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -2605,3 +2607,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170427142658');
 INSERT INTO schema_migrations (version) VALUES ('20170516093305');
 
 INSERT INTO schema_migrations (version) VALUES ('20170516093306');
+
+INSERT INTO schema_migrations (version) VALUES ('20170516093307');
+
