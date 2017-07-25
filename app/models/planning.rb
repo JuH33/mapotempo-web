@@ -15,12 +15,51 @@
 # along with Mapotempo. If not, see:
 # <http://www.gnu.org/licenses/agpl.html>
 #
+
+# Use tree logic model even with scopes
+module BucketModel
+  RELATION_HASH = {}
+
+  def bucket_with(include_method, model_relation)
+    RELATION_HASH[model_relation] = {relation: include_method, data: nil}
+    OverrideModel.override_relation
+
+    relation_object = self.send(include_method) if self.respond_to?(include_method)
+    RELATION_HASH[model_relation][:data] = relation_object
+  end
+
+  # Responsible of overiding methods in owner model
+  module OverrideModel
+    def save(*)
+      BucketModel::RELATION_HASH.each do |key, hash|
+        hash[:data].each(&:save!)
+        BucketModel::RELATION_HASH.delete(key)
+      end
+      super
+    end
+
+    def self.override_relation
+      BucketModel::RELATION_HASH.each_key do |key|
+        define_method(key) do |*args|
+          relation = BucketModel::RELATION_HASH[key]
+          return BucketModel::RELATION_HASH[key][:data] if relation && relation[:data].is_a?(ActiveRecord::AssociationRelation)
+          super(*args)
+        end
+      end
+    end
+  end
+end
+
 class Planning < ApplicationRecord
   default_scope { includes(:tags).order(:id) }
 
+  prepend BucketModel::OverrideModel
+
   belongs_to :customer
   has_and_belongs_to_many :zonings, autosave: true, after_add: :update_zonings_track, after_remove: :update_zonings_track
-  has_many :routes, -> { order('CASE WHEN vehicle_usage_id IS NULL THEN 0 ELSE routes.id END') }, inverse_of: :planning, autosave: true, dependent: :delete_all
+  has_many :routes, -> { order('CASE WHEN vehicle_usage_id IS NULL THEN 0 ELSE routes.id END') }, inverse_of: :planning, autosave: true, dependent: :delete_all do
+    include BucketModel
+  end
   has_and_belongs_to_many :tags, autosave: true, after_add: :update_tags_track, after_remove: :update_tags_track
   belongs_to :order_array
   belongs_to :vehicle_usage_set, inverse_of: :plannings, validate: true
@@ -616,6 +655,9 @@ class Planning < ApplicationRecord
   def split_by_zones(visits_free)
     self.zoning_outdated = false
     if !zonings.empty? && !routes.empty?
+
+      routes.bucket_with(:includes_destinations, :routes)
+
       # Make sure there is at least one Zone with Vehicle, else, don't apply Zones
       return unless zonings.any?{ |zoning| zoning.zones.any?{ |zone| !zone.avoid_zone && !zone.vehicle_id.blank? } }
 
