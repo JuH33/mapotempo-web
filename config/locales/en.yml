@@ -1226,6 +1226,10 @@ en:
     footer:
       first_step: "⭐ Step 1: Set your password"
       second_step: "⭐ Step 2: Log in to the application"
+      network_icons:
+        facebook: 'https://www.mapotempo.com/wp-content/uploads/2018/06/facebook.png'
+        linkedin: 'https://www.mapotempo.com/wp-content/uploads/2018/06/linkedin.png'
+        twitter: 'https://www.mapotempo.com/wp-content/uploads/2018/06/twitter.png'
     password:
       subject: "Set your password for %{name}"
       title: "Set your password"

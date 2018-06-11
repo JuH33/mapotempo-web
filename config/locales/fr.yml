@@ -1295,6 +1295,10 @@
     'footer':
       'first_step': '⭐ Étape 1 : Définissez votre mot de passe'
       'second_step': '⭐ Étape 2 : Connectez-vous à l''application'
+      'network_icons':
+        'facebook': 'https://www.mapotempo.com/wp-content/uploads/2018/06/facebook.png'
+        'linkedin': 'https://www.mapotempo.com/wp-content/uploads/2018/06/linkedin.png'
+        'twitter': 'https://www.mapotempo.com/wp-content/uploads/2018/06/twitter.png'
     'password':
       'subject': 'Définissez votre mot de passe pour %{name}'
       'title': 'Définissez votre mot de passe'
