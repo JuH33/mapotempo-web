@@ -97,4 +97,14 @@ class UserMailerTest < ActionMailer::TestCase
     user_one.update(created_at: creation_date)
     user_one.customer.reseller.update(contact_url: nil, help_url: nil)
   end
+
+  test 'should not use attachments for images'  do
+    user_one = users(:user_one)
+    user_one.customer.reseller.help_url = 'https://www.mapotempo.com/{LG}/help-center'
+    user_one.customer.reseller.contact_url = 'https://www.mapotempo.com/{LG}/help-center'
+
+    email = UserMailer.automation_dispatcher(user_one, I18n.locale, 'accompanying_team').deliver_now
+
+    assert email.attachments.blank?
+  end
 end
