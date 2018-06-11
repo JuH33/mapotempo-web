@@ -107,4 +107,16 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert email.attachments.blank?
   end
+
+  test "should use the resller data in email links" do
+    user = users(:user_one)
+    user.customer.reseller.help_url = 'https://www.mapotempo.com/{LG}/help-center'
+    user.customer.reseller.contact_url = 'https://www.mapotempo.com/{LG}/help-center'
+
+    %w(host url_protocol).each do |prop|
+      email = UserMailer.automation_dispatcher(user, :fr, 'features').deliver_now
+      matches = email.body.encoded.to_s.scan(/#{user.customer.reseller.send(prop)}/)
+      assert_not matches.blank?
+    end
+  end
 end
