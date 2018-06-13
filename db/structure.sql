@@ -700,6 +700,7 @@ CREATE TABLE stops (
     no_path boolean,
     out_of_work_time boolean,
     out_of_max_distance boolean,
+    unmanageble_capacity boolean,
     CONSTRAINT check_visit_id CHECK ((((type)::text <> 'StopVisit'::text) OR (visit_id IS NOT NULL)))
 );
 
@@ -2746,3 +2747,4 @@ INSERT INTO schema_migrations (version) VALUES ('20180316104056');
 
 INSERT INTO schema_migrations (version) VALUES ('20180420075039');
 
+INSERT INTO schema_migrations (version) VALUES ('20180612140106');
